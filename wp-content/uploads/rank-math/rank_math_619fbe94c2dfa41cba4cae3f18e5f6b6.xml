@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="//harvard.test/main-sitemap.xsl"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<sitemap>
+		<loc>http://harvard.test/post-sitemap.xml</loc>
+		<lastmod>2025-06-16T09:07:02+00:00</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>http://harvard.test/page-sitemap.xml</loc>
+		<lastmod>2025-06-17T09:33:42+00:00</lastmod>
+	</sitemap>
+	<sitemap>
+		<loc>http://harvard.test/category-sitemap.xml</loc>
+		<lastmod>2025-06-16T09:07:02+00:00</lastmod>
+	</sitemap>
+</sitemapindex>
