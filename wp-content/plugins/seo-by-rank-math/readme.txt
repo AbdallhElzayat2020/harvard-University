@@ -5,7 +5,7 @@ Tags: seo, WordPress SEO, google search console, schema, redirection,
 Tested up to: 6.8
 Requires at least: 6.3
 Requires PHP: 7.4
-Stable tag: 1.0.246
+Stable tag: 1.0.248
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -339,12 +339,15 @@ Please drop us an email at support@rankmath.com, and we will be more than happy 
 
 == Changelog ==
 
-= 1.0.246 [June 04, 2025] =
-- Added: Features & Benefits field in [Content AI FAQ tool](https://rankmath.com/kb/content-ai-frequently-asked-questions-tool/)
-- Added: New filter to remove one or more [Content AI tests](https://rankmath.com/kb/filters-hooks-api-developer/#remove-content-analysis)
-- Improved: [Content AI Research tool recommendations](https://rankmath.com/kb/how-to-use-content-ai/) on WooCommerce products as product pages don't contain much content
-- Improved: Title, tooltip & number formats used in [Analytics stats](https://rankmath.com/kb/analytics) to make them easier to understand
-- Fixed: Clicking "Back" in the second step of [Setup Wizard](https://rankmath.com/kb/how-to-setup/) was breaking the page after the last update
-- Fixed: Translated strings were not showing on [Divi's Frontend editor](https://rankmath.com/blog/divi-seo/)
+= 1.0.248 [July 03, 2025] =
+- Added: [Filter](https://rankmath.com/kb/filters-hooks-api-developer/#remove-target-blank-attribute) to exclude certain domains from the [Open External Links in New Tab](https://rankmath.com/kb/open-links-in-new-window/) option
+- Added: [Filter](https://rankmath.com/kb/filters-hooks-api-developer/#html-sitemap-post-limit) to set a hard limit on the posts displayed in the HTML sitemap, defaults to 1000 posts
+- Improved: Changed the [Analytics](https://rankmath.com/kb/analytics/) data fetch frequency from 7 days to 3 days to show fresher data sooner in the Stats
+- Improved: Site getting automatically disconnected from Analytics will now attempt to reconnect in the background, and if that fails, a notice will prompt the user to reconnect manually
+- Improved: [Analytics URL Inspection](https://rankmath.com/kb/url-inspection-api-integration/) now prioritizes fetching high-traffic pages before other pages
+- Fixed: Incorrect [Post Analytics stats](https://rankmath.com/kb/analytics/#post-analytics) shown for secondary language posts when the sub-directory option is enabled in the WPML plugin
+- Fixed: PHP warning on the [Database Tools page](https://rankmath.com/kb/rank-math-status-and-tools/#database-tools) when WPML plugin is not active
+- Fixed: Deprecated PHP warning on the BuddyPress author page
+- Fixed: Deprecated warnings shown in the browser inspect on the [Setup Wizard page](https://rankmath.com/kb/how-to-setup/)
 
 Full changelog can be found here - **[Rank Math changelog](https://rankmath.com/changelog/?utm_source=Plugin&utm_medium=Changelog&utm_campaign=WP)**

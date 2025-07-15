@@ -780,6 +780,14 @@ input.trp-language-slug{
     fill: var(--trp-settings-warning-text-color);
 }
 
+#trp-refresh-tpai{
+    cursor: pointer;
+}
+#trp-refresh-tpai:hover,
+#trp-refresh-tpai:hover span{
+    color: var(--trp-settings-accent-color);
+}
+
 .trp-get-free-license__container{
     display: flex;
     width: 100%;
@@ -1137,6 +1145,9 @@ details .trp-description-text{
 }
 
 .trp-license-right-row{
+
+}
+.trp-license-key-action{
     display: flex;
     gap: 8px;
 }
@@ -1158,8 +1169,13 @@ details .trp-description-text{
     border-radius: 6px;
     font-size: 14px;
     gap: 8px;
+    margin-bottom: 8px;
 }
-
+.trp-license-message p{
+    font-size: 14px;
+    line-height: 1.8em;
+    margin:0;
+}
 .trp-license-status-invalid{
     color: var(--trp-settings-warning-text-color);
     background-color: var(--trp-settings-warning-bg-color);
@@ -1205,10 +1221,27 @@ details .trp-description-text{
     gap: 13px;
 }
 
+.trp-license-page-upsell-container summary{
+    cursor: pointer; font-weight: bold; padding: 10px 0;
+}
+
+.trp-license-page-upsell-container code{
+    display: block;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    margin: 10px 0;
+}
+
 .trp-license-page-upsell-container-content{
     display: flex;
     flex-direction: column;
     gap: 24px;
+    font-size: var(--trp-settings-primary-font-size);
 }
 
 .trp-license-page-upsell-container__left{
@@ -1628,6 +1661,9 @@ td.trp-add-list-entry-input-col, .trp-list-entry td{
     }
 
     .trp-license-right-row{
+    }
+
+    .trp-license-key-action{
         flex-direction: column;
     }
 

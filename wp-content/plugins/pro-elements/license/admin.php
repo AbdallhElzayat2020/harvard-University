@@ -178,10 +178,16 @@ class Admin {
 		}
 
 		if ( ! API::is_license_expired() && API::is_need_to_show_upgrade_promotion() ) {
+			$menu_title = esc_html__( 'Unlock More Features', 'elementor-pro' );
+
+			if ( Pro_Utils::is_sale_time() ) {
+				$menu_title = esc_html__( 'Discounted Upgrades', 'elementor-pro' );
+			}
+
 			add_submenu_page(
 				Settings::PAGE_ID,
 				'',
-				esc_html__( 'Unlock More Features', 'elementor-pro' ),
+				$menu_title,
 				'manage_options',
 				'elementor_pro_upgrade_license_menu_link',
 			);
@@ -293,7 +299,7 @@ class Admin {
 				<p id="tier-upgrade-promotion" class="elementor-license-box e-row-stretch">
 					<span><?php echo esc_html__( 'Get more advanced features', 'elementor-pro' ); ?></span>
 					<a class="button elementor-upgrade-link" target="_blank" href="https://go.elementor.com/go-pro-advanced-license-screen/">
-						<?php echo esc_html__( 'Upgrade now', 'elementor-pro' ); ?>
+						<?php echo Pro_Utils::is_sale_time() ? esc_html__( 'Discounted Upgrades', 'elementor-pro' ) : esc_html__( 'Upgrade now', 'elementor-pro' ); ?>
 					</a>
 				</p>
 			<?php endif; ?>
@@ -764,6 +770,9 @@ class Admin {
 		add_filter( 'plugin_action_links_' . ELEMENTOR_PRO_PLUGIN_BASE, [ $this, 'plugin_action_links' ], 50 );
 		add_filter( 'plugin_auto_update_setting_html', [ $this, 'plugin_auto_update_setting_html' ], 10, 2 );
 		add_filter( 'elementor/admin/homescreen_promotion_tier', function ( $tier ) {
+			if ( API::is_license_expired() ) {
+				return API::STATUS_EXPIRED;
+			}
 			return API::get_access_tier();
 		} );
 

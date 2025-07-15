@@ -18,6 +18,8 @@ if ( !empty( $details['invalid'] ) ){
     $license_status = 'valid';
 }
 
+$license_activation_message = $this->license_activation_message();
+
 if ( $license_status == 'valid' ) {
     $button_name  = 'trp_edd_license_deactivate';
     $button_value = __( 'Deactivate License', 'translatepress-multilingual' );
@@ -53,29 +55,40 @@ if ( $license_status == 'valid' ) {
                                 </div>
 
                                 <div class="trp-license-right-row">
-                                    <div class="trp-license-field-col">
-                                        <input id="trp_license_key" name="trp_license_key" type="password" value="<?php echo esc_attr( $license ); ?>" />
-                                        <?php wp_nonce_field( 'trp_license_nonce', 'trp_license_nonce' ); ?>
-                                        <div class="trp-license-message trp-license-status-<?php echo esc_attr( $license_status ); ?>">
-                                            <div class="trp-license-icon"></div>
-                                            <span class="trp-license-message-text">
-                                            <?php echo isset( $license_message[$license_status] ) ? esc_html( $license_message[$license_status] ) : '' ?>
-                                        </span>
+                                    <div class="trp-license-key-action">
+                                        <div class="trp-license-field-col">
+                                            <input id="trp_license_key" name="trp_license_key" type="password" value="<?php echo esc_attr( $license ); ?>" />
+                                            <?php wp_nonce_field( 'trp_license_nonce', 'trp_license_nonce' ); ?>
+                                            <div class="trp-license-message trp-license-status-<?php echo esc_attr( $license_status ); ?>">
+                                                <div class="trp-license-icon"></div>
+                                                <span class="trp-license-message-text">
+                                                    <?php echo isset( $license_message[$license_status] ) ? esc_html( $license_message[$license_status] ) : '' ?>
+                                                </span>
+                                            </div>
                                         </div>
 
-                                        <span class="trp-description-text">
+                                        <div class="trp-license-action-col">
+                                            <input type="submit" class="<?php echo esc_attr( $button_class ); ?>" name="<?php echo esc_attr( $button_name ); ?>" value="<?php echo esc_attr( $button_value ); ?>"/>
+                                        </div>
+                                    </div>
+                                    <?php
+                                    if ( isset( $_GET['trp_sl_activation'] ) && ! empty( $_GET['message'] ) && isset( $_GET['trp_license_nonce'] ) && wp_verify_nonce( sanitize_text_field( $_GET['trp_license_nonce'] ), 'trp_license_display_message' ) ) :
+                                    ?>
+                                    <div class="trp-license-message trp-license-status-<?php echo esc_attr( $license_status ); ?>">
+                                        <span><?php echo $license_activation_message; //phpcs:ignore ?></span>
+                                    </div>
+                                    <?php
+                                    endif;
+                                    ?>
+                                    <p class="trp-description-text">
                                         <?php
                                         printf(
                                             esc_html__( 'Manage your license in your %1$s.', 'translatepress-multilingual' ),
                                             '<a href="' . esc_url( 'https://translatepress.com/account/' ) . '" target="_blank">' . esc_html__( 'Account Page', 'translatepress-multilingual' ) . '</a>'
                                         );
                                         ?>
-                                    </span>
-                                    </div>
+                                    </p>
 
-                                    <div class="trp-license-action-col">
-                                        <input type="submit" class="<?php echo esc_attr( $button_class ); ?>" name="<?php echo esc_attr( $button_name ); ?>" value="<?php echo esc_attr( $button_value ); ?>"/>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -118,15 +131,97 @@ if ( $license_status == 'valid' ) {
                                 </div>
 
                                 <div>
-                                    <a href="https://translatepress.com/tp-ai-free/?utm_source=wpbackend&utm_medium=clientsite&utm_content=license-page&utm_campaign=tpaifree" class="trp-submit-btn" target="_blank"><?php esc_html_e("Get a free License Today", 'translatepress-multilingual') ?></a>
+                                    <a href="https://translatepress.com/ai-free/?utm_source=wpbackend&utm_medium=clientsite&utm_content=license-page&utm_campaign=tpaifree" class="trp-submit-btn" target="_blank"><?php esc_html_e("Get a free License Today", 'translatepress-multilingual') ?></a>
                                 </div>
                             </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <?php
+                        // Debug information section
+                        $force_check_request = get_transient('trp_debug_force_check_license_request');
+                        $force_check_response = get_transient('trp_debug_force_check_license_response');
+                        $activate_request = get_transient('trp_debug_activate_license_request');
+                        $activate_response = get_transient('trp_debug_activate_license_response');
+
+                        if ($force_check_request || $force_check_response || $activate_request || $activate_response) : ?>
+                        <div class="trp-settings-container">
+                            <h3 class="trp-settings-primary-heading" style="display: flex; align-items: center;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;">
+                                    <path d="M12 15C12.5523 15 13 14.5523 13 14C13 13.4477 12.5523 13 12 13C11.4477 13 11 13.4477 11 14C11 14.5523 11.4477 15 12 15Z" fill="#354052"/>
+                                    <path d="M12 11V7" stroke="#354052" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" stroke="#354052" stroke-width="2"/>
+                                </svg>
+                                <?php esc_html_e( 'Debug Information', 'translatepress-multilingual' ); ?>
+                            </h3>
+                            <div class="trp-settings-separator"></div>
+                            
+                            <?php if ($force_check_request || $force_check_response) : ?>
+                            <details>
+                                <summary><?php esc_html_e( 'Debug Data for License Checking', 'translatepress-multilingual' ); ?></summary>
+                                
+                                <code>
+<?php if ($force_check_request) : ?>
+=== REQUEST ===
+URL: <?php echo esc_html($force_check_request['url']); ?>
+
+Timestamp: <?php echo esc_html($force_check_request['timestamp']); ?>
+
+Parameters:
+<?php echo esc_html(print_r($force_check_request['params'], true)); ?>
+<?php endif; ?>
+
+<?php if ($force_check_response) : ?>
+=== RESPONSE ===
+Response Code: <?php echo esc_html($force_check_response['response_code']); ?>
+
+Timestamp: <?php echo esc_html($force_check_response['timestamp']); ?>
+
+Response Body:
+<?php echo esc_html(str_replace(['{', '}', ','], ["\n{\n", "\n}\n", ",\n"], $force_check_response['response_body'])); ?>
+<?php endif; ?>
+                                </code>
+                            </details>
+                            <?php endif; ?>
+
+                            <?php if ($activate_request || $activate_response) : ?>
+                            <details>
+                                <summary><?php esc_html_e( 'Debug Data for License Activation', 'translatepress-multilingual' ); ?></summary>
+                                
+                                <code>
+<?php if ($activate_request) : ?>
+=== REQUEST ===
+URL: <?php echo esc_html($activate_request['url']); ?>
+
+Timestamp: <?php echo esc_html($activate_request['timestamp']); ?>
+
+Parameters:
+<?php echo esc_html(print_r($activate_request['params'], true)); ?>
+<?php endif; ?>
+
+<?php if ($activate_response) : ?>
+=== RESPONSE ===
+Response Code: <?php echo esc_html($activate_response['response_code']); ?>
+
+Timestamp: <?php echo esc_html($activate_response['timestamp']); ?>
+
+Response Body:
+<?php echo esc_html(str_replace(['{', '}', ','], ["\n{\n", "\n}\n", ",\n"], $activate_response['response_body'])); ?>
+<?php endif; ?>
+                                </code>
+                            </details>
+                            <?php endif; ?>
                         </div>
                         <?php endif; ?>
                     </div>
                     <?php if ($license_status != 'valid') : ?>
                     <div class="trp-license-page-upsell-container__right">
                         <div class="trp-settings-container trp-license-page-upsell-container-content">
+                            <div class="trp-upgrade-notice">
+                                <?php esc_html_e( 'Get more AI words and unlock all features with TranslatePress Pro.', 'translatepress-multilingual' ); ?>
+                                <a class="trp-upgrade-notice-button" href="https://translatepress.com/account/?utm_source=wpbackend&utm_medium=clientsite&utm_content=license-page&utm_campaign=upsell"><span><?php esc_html_e( 'Upgrade now ↗', 'translatepress-multilingual' ); ?></span></a>
+
+                            </div>
                             <h3 class="trp-settings-secondary-heading">
                                 <?php esc_html_e( 'Already purchased a Premium version?', 'translatepress-multilingual' ); ?>
                             </h3>
@@ -157,6 +252,7 @@ if ( $license_status == 'valid' ) {
                 </div>
                     <?php endif; ?>
                 </div>
+
             </div>
         </form>
 
